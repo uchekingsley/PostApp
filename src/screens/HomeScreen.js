@@ -5,6 +5,7 @@ import PostItem from "../components/PostItems";
 
 export default function HomeScreen({ navigation }) {
     const [posts, setPosts] = useState([]);
+    const [pinnedPostIds, setPinnedPostIds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -26,6 +27,20 @@ export default function HomeScreen({ navigation }) {
         loadPosts();
     }, []);
 
+    const togglePinPost = (id) => {
+        setPinnedPostIds((prev) => 
+            prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+        );
+    };
+
+    const sortedPosts = [...posts].sort((a, b) => {
+        const aPinned = pinnedPostIds.includes(a.id);
+        const bPinned = pinnedPostIds.includes(b.id);
+        if (aPinned && !bPinned) return -1;
+        if (!aPinned && bPinned) return 1;
+        return 0;
+    });
+
     if (loading) {
         return (
             <View style={styles.center}>
@@ -45,12 +60,14 @@ export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <FlatList
-                data={posts}
+                data={sortedPosts}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <PostItem
                         post={item}
                         onPress={() => navigation.navigate("PostDetails", { postId: item.id })}
+                        isPinned={pinnedPostIds.includes(item.id)}
+                        onPinPress={() => togglePinPost(item.id)}
                     />
                 )}
                 contentContainerStyle={styles.listContainer}
