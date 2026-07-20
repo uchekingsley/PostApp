@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from "react-native";
-import { fetchPostDetails } from '../services/api';
+import { useLocalSearchParams } from 'expo-router';
+import { fetchPostDetails, Post } from '../services/api';
 
-export default function PostDetailsScreen({ route }) {
-    const { postId } = route.params || {};
-    const [post, setPost] = useState(null);
+export default function PostDetailsScreen() {
+    const { postId } = useLocalSearchParams<{ postId: string }>();
+    const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!postId) {
@@ -100,4 +101,3 @@ const styles = StyleSheet.create({
         lineHeight: 24,
     },
 });
-

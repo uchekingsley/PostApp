@@ -1,6 +1,13 @@
+export interface Post {
+    userId: number;
+    id: number;
+    title: string;
+    body: string;
+}
+
 const BASE_URL = "https://jsonplaceholder.typicode.com";
 
-export async function fetchPosts() {
+export async function fetchPosts(): Promise<Post[]> {
     try {
         const response = await fetch(`${BASE_URL}/posts`);
 
@@ -8,7 +15,7 @@ export async function fetchPosts() {
             throw new Error("Failed to fetch posts");
         }
 
-        const data = await response.json();
+        const data: Post[] = await response.json();
         return data;
     } catch (error) {
         console.error(error);
@@ -16,7 +23,7 @@ export async function fetchPosts() {
     }
 }
 
-export async function fetchPostDetails(postId) {
+export async function fetchPostDetails(postId: number | string): Promise<Post> {
     try {
         const response = await fetch(`${BASE_URL}/posts/${postId}`);
 
@@ -24,7 +31,7 @@ export async function fetchPostDetails(postId) {
             throw new Error(`Failed to fetch post details for ID: ${postId}`);
         }
 
-        const data = await response.json();
+        const data: Post = await response.json();
         return data;
     } catch (error) {
         console.error(error);

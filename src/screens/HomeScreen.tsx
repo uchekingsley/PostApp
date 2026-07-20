@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
-import { fetchPosts } from "../services/api";
+import { router } from "expo-router";
+import { fetchPosts, Post } from "../services/api";
 import PostItem from "../components/PostItems";
 
-export default function HomeScreen({ navigation }) {
-    const [posts, setPosts] = useState([]);
-    const [pinnedPostIds, setPinnedPostIds] = useState([]);
+export default function HomeScreen() {
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [pinnedPostIds, setPinnedPostIds] = useState<number[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
     const loadPosts = async () => {
         try {
@@ -27,7 +28,7 @@ export default function HomeScreen({ navigation }) {
         loadPosts();
     }, []);
 
-    const togglePinPost = (id) => {
+    const togglePinPost = (id: number) => {
         setPinnedPostIds((prev) => 
             prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
         );
@@ -65,7 +66,7 @@ export default function HomeScreen({ navigation }) {
                 renderItem={({ item }) => (
                     <PostItem
                         post={item}
-                        onPress={() => navigation.navigate("PostDetails", { postId: item.id })}
+                        onPress={() => router.push(`/post-details/${item.id}`)}
                         isPinned={pinnedPostIds.includes(item.id)}
                         onPinPress={() => togglePinPost(item.id)}
                     />
