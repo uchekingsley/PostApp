@@ -1,8 +1,8 @@
-# 📱 PostApp — MVP Mobile App
+# 📱 PostApp — Social Media Mobile App (MVP)
 
-A clean, responsive mobile application built with **React Native**, **Expo Router**, and **TypeScript**. 
+A modern, responsive **social media mobile application** built with **React Native**, **Expo Router**, and **TypeScript**.
 
-It demonstrates core mobile fundamentals: consuming a REST API, list rendering and virtualization, client-side sorting/pinning, pull-to-refresh, dynamic routing, and detailed view navigation.
+Users can browse a live community post feed, pin favorite posts to the top, pull to refresh updates, and dive into full post views via deep-linkable navigation — with a full-stack Flask + SQL social roadmap underway.
 
 ---
 
