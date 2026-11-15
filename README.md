@@ -86,7 +86,7 @@ See the full architecture, SQL schemas, and 4 implementation phases in [`ROADMAP
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/) (SDK 54)
+- **Framework**: [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/) (SDK 57)
 - **Routing**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Icons**: [@expo/vector-icons](https://icons.expo.fyi/)
