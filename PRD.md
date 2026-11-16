@@ -100,3 +100,4 @@ Unlike bloated general-purpose social networks, PostApp provides a lightweight, 
 1. **Architecture Signal**: Clear separation of concerns between presentation, domain hooks, and API services.
 2. **Full-Stack Signal**: Ability to explain the complete request lifecycle from React Native component → JWT Bearer Token → Flask Route → SQLAlchemy ORM → PostgreSQL.
 3. **UX Signal**: Zero-lag optimistic updates, smooth haptics, and instant cache rehydration.
+
