@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,45 +10,22 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { Link, router } from 'expo-router';
+import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '../../context/AuthContext';
+import { useRegisterForm } from '../../hooks/useAuthForms';
 
 export default function RegisterScreen() {
-  const { register } = useAuth();
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const handleRegister = async () => {
-    if (!username.trim() || !email.trim() || !password.trim()) {
-      setErrorMessage('Please fill in all fields.');
-      return;
-    }
-
-    if (username.trim().length < 3) {
-      setErrorMessage('Username must be at least 3 characters long.');
-      return;
-    }
-
-    if (password.length < 6) {
-      setErrorMessage('Password must be at least 6 characters long.');
-      return;
-    }
-
-    try {
-      setIsSubmitting(true);
-      setErrorMessage(null);
-      await register(username, email, password);
-      router.replace('/');
-    } catch (err: any) {
-      setErrorMessage(err.message || 'Registration failed. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const {
+    username,
+    email,
+    password,
+    isSubmitting,
+    errorMessage,
+    updateUsername,
+    updateEmail,
+    updatePassword,
+    handleRegister,
+  } = useRegisterForm();
 
   return (
     <KeyboardAvoidingView
@@ -83,10 +60,7 @@ export default function RegisterScreen() {
             autoCapitalize="none"
             autoCorrect={false}
             value={username}
-            onChangeText={(text) => {
-              setUsername(text);
-              if (errorMessage) setErrorMessage(null);
-            }}
+            onChangeText={updateUsername}
           />
 
           <Text style={[styles.label, { marginTop: 14 }]}>Email Address</Text>
@@ -98,10 +72,7 @@ export default function RegisterScreen() {
             autoCapitalize="none"
             autoCorrect={false}
             value={email}
-            onChangeText={(text) => {
-              setEmail(text);
-              if (errorMessage) setErrorMessage(null);
-            }}
+            onChangeText={updateEmail}
           />
 
           <Text style={[styles.label, { marginTop: 14 }]}>Password</Text>
@@ -112,10 +83,7 @@ export default function RegisterScreen() {
             secureTextEntry
             autoCapitalize="none"
             value={password}
-            onChangeText={(text) => {
-              setPassword(text);
-              if (errorMessage) setErrorMessage(null);
-            }}
+            onChangeText={updatePassword}
           />
 
           {/* Submit Button */}

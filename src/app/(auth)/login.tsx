@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,35 +10,20 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { Link, router } from 'expo-router';
+import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '../../context/AuthContext';
+import { useLoginForm } from '../../hooks/useAuthForms';
 
 export default function LoginScreen() {
-  const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
-      setErrorMessage('Please enter both email and password.');
-      return;
-    }
-
-    try {
-      setIsSubmitting(true);
-      setErrorMessage(null);
-      await login(email, password);
-      // Once authenticated, route straight into the main feed
-      router.replace('/');
-    } catch (err: any) {
-      setErrorMessage(err.message || 'Login failed. Please check your credentials.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const {
+    email,
+    password,
+    isSubmitting,
+    errorMessage,
+    updateEmail,
+    updatePassword,
+    handleLogin,
+  } = useLoginForm();
 
   return (
     <KeyboardAvoidingView
@@ -74,10 +59,7 @@ export default function LoginScreen() {
             autoCapitalize="none"
             autoCorrect={false}
             value={email}
-            onChangeText={(text) => {
-              setEmail(text);
-              if (errorMessage) setErrorMessage(null);
-            }}
+            onChangeText={updateEmail}
           />
 
           <Text style={[styles.label, { marginTop: 16 }]}>Password</Text>
@@ -88,10 +70,7 @@ export default function LoginScreen() {
             secureTextEntry
             autoCapitalize="none"
             value={password}
-            onChangeText={(text) => {
-              setPassword(text);
-              if (errorMessage) setErrorMessage(null);
-            }}
+            onChangeText={updatePassword}
           />
 
           {/* Submit Button */}
